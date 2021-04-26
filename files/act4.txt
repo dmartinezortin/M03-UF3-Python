@@ -1,0 +1,18 @@
+{ id: 12 
+	{
+		grup/cantant: 12145 ,
+		nom de la canço: 12 ,
+		data publicacio: 12/12/1212 ,
+		visualitzacions: 45232 ,
+	}
+}
+
+{ id: 11 
+	{
+		grup/cantant: 325 ,
+		nom de la canço: 1532 ,
+		data publicacio: 12/12/1212 ,
+		visualitzacions: 34534 ,
+	}
+}
+
