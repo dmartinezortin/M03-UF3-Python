@@ -39,7 +39,7 @@ def read_file(filename, operation):
     finally:
         # Finalment, hagi fallat o no, tanca el programa
         print("Sortint del programa.")
-
+        
 def request_option():
     option = int(input("Que vols fer? \n1.Crear un fitxer\n2.Mostrar el contingut d'un fitxer\n3.Modificar el contingut d'un fitxer\n4.Sortir\n"))
     while option > 4 or option < 1:
