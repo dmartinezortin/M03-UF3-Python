@@ -98,6 +98,7 @@ def get_index(main_dict):
                         print(pointer)
                         is_updated = True
                         break
+
             if is_updated == False:
                 insert_dict(main_dict)
         except:
