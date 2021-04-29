@@ -2,6 +2,7 @@ import functions as f
 import sys as sys
 
 def main():
+
     #demana un numero del 1 al 4
     option = f.request_option()
     if option == 1:

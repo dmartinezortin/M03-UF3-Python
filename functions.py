@@ -1,6 +1,7 @@
 import sys as sys
-
-ACT4 = "files/act4.txt"
+import pandas as pd
+ACT4 = "files/act4.csv"
+BLOCK_LENGTH = 5
 
 def request_string(str_size):
     str = input("introdueix el string: ")
@@ -57,55 +58,35 @@ def request_date(format = "xx/xx/xxxx"):
     check_pattern = list([x for x in range(len(format)) if format[x] == "/"])
     date = input("Introdueix una data: ")
     while len(date) != len(format) or date[check_pattern[0]] != "/" or date[check_pattern[1]] != "/" :
-        date = input("Introdueix una data")
+        date = input("Introdueix una data: ")
     return date
 
-def insert_dict(main_dict, pointer = 0):
-    with open(ACT4, "a") as f:
-        f.seek(pointer)
+def insert_dict(main_dict):
+    with open(ACT4, "a+") as f:
         try:
-            # Llegeix el text del document
-            for key, value in main_dict.items():
-                print("{ id:", key , "\n\t{", file = f)
-                for x, y in value.items():
-                    print("\t\t" + x + ":", y, ",", file = f)
-                print("\t}\n}\n", file = f)
+            if f.read(1):
+                new_df = pd.DataFrame(main_dict)
+                new_df.to_csv(ACT4)
+            else:
+                actual_df = pd.read_csv(ACT4)
+                print(actual_df)
             f.close()
         except:
             # Obté el error del procés i el printa
             err = sys.exc_info()[1]
             print(err)
 
-def get_index(main_dict):
-    pointer = 0
-    is_updated = False
+def get_index(main_dict, id_campaign):
+    offset = 0
     with open(ACT4, "r+") as f:
-        target_index = list(main_dict)
-        target_index = target_index[0]
+        f.seek(0)
         try:
-            # Llegeix el text del document
-            f.seek(0)
-            chunk = f.readline()
-            while chunk != '':
-                chunk = f.readline()
-                line = f.readline()
-                num = line.split()
-                if line.startswith("{ id:"):
-                    print(target_index)
-                    if target_index > int(num[-1]):
-                        pointer = f.tell()
-                        f.close()
-                        print(pointer)
-                        insert_dict(main_dict, pointer)
-                        print(pointer)
-                        is_updated = True
-                        break
+            for line in f:
+                offset += len(line)
 
-            if is_updated == False:
-                insert_dict(main_dict)
+
         except:
             # Obté el error del procés i el printa
             err = sys.exc_info()[1]
             print(err)
 
-    return pointer
