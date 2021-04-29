@@ -61,20 +61,20 @@ def request_date(format = "xx/xx/xxxx"):
     return date
 
 def insert_dict(main_dict, pointer = 0):
-    f = open(ACT4, "a")
-    f.seek(pointer)
-    try:
-        # Llegeix el text del document
-        for key, value in main_dict.items():
-            print("{ id:", key , "\n\t{", file = f)
-            for x, y in value.items():
-                print("\t\t" + x + ":", y, ",", file = f)
-            print("\t}\n}\n", file = f)
-        f.close()
-    except:
-        # Obté el error del procés i el printa
-        err = sys.exc_info()[1]
-        print(err)
+    with open(ACT4, "a") as f:
+        f.seek(pointer)
+        try:
+            # Llegeix el text del document
+            for key, value in main_dict.items():
+                print("{ id:", key , "\n\t{", file = f)
+                for x, y in value.items():
+                    print("\t\t" + x + ":", y, ",", file = f)
+                print("\t}\n}\n", file = f)
+            f.close()
+        except:
+            # Obté el error del procés i el printa
+            err = sys.exc_info()[1]
+            print(err)
 
 def get_index(main_dict):
     pointer = 0
@@ -91,9 +91,11 @@ def get_index(main_dict):
                 line = f.readline()
                 num = line.split()
                 if line.startswith("{ id:"):
-                    if target_index < int(num[-1]):
+                    print(target_index)
+                    if target_index > int(num[-1]):
                         pointer = f.tell()
                         f.close()
+                        print(pointer)
                         insert_dict(main_dict, pointer)
                         print(pointer)
                         is_updated = True
