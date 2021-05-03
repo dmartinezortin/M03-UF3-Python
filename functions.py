@@ -61,32 +61,10 @@ def request_date(format = "xx/xx/xxxx"):
         date = input("Introdueix una data: ")
     return date
 
-def insert_dict(main_dict):
-    with open(ACT4, "a+") as f:
-        try:
-            if f.read(1):
-                new_df = pd.DataFrame(main_dict)
-                new_df.to_csv(ACT4)
-            else:
-                actual_df = pd.read_csv(ACT4)
-                print(actual_df)
-            f.close()
-        except:
-            # Obté el error del procés i el printa
-            err = sys.exc_info()[1]
-            print(err)
-
-def get_index(main_dict, id_campaign):
-    offset = 0
-    with open(ACT4, "r+") as f:
-        f.seek(0)
-        try:
-            for line in f:
-                offset += len(line)
-
-
-        except:
-            # Obté el error del procés i el printa
-            err = sys.exc_info()[1]
-            print(err)
-
+def insert(main_dict):
+    df = pd.DataFrame(data=main_dict)
+    df = df.rename(columns= {"" : "id"})
+    df.to_csv(ACT4, mode='a')
+    sort_csv = pd.read_csv(ACT4, index_col=0)
+    #sort_csv.sort_values("NaN",ascending=True)
+    print(sort_csv)
