@@ -61,6 +61,7 @@ def request_date(format = "xx/xx/xxxx"):
         date = input("Introdueix una data: ")
     return date
 
+
 def insert(main_dict):
     df = pd.DataFrame(data=main_dict)
     df = df.rename(columns= {"" : "id"})

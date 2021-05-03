@@ -7,3 +7,4 @@ def main():
     f.insert(main_dict)
 if __name__ == '__main__':
     main()
+
