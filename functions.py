@@ -50,22 +50,41 @@ def request_option():
     return option
 
 def request_int(str):
-    num = int(input(str))
-    while num < 0:
-        num = int(input(str))
-    return  num
+    num = -1
+    while num < 0 :
+        try:
+            num = int(input(str))
+        except:
+            pass
+    return num
+
+
+
 def request_date(format = "xx/xx/xxxx"):
+
     check_pattern = list([x for x in range(len(format)) if format[x] == "/"])
-    date = input("Introdueix una data: ")
-    while len(date) != len(format) or date[check_pattern[0]] != "/" or date[check_pattern[1]] != "/" :
+    date = "/"
+    date_arr = []
+    while len(date) != len(format) or date[check_pattern[0]] != "/" or date[check_pattern[1]] != "/" or int(date_arr[0]) > 31 or int(date_arr[1] > 12):
         date = input("Introdueix una data: ")
+        date_arr = date.split("/")
+        print(date_arr)
+        while int(date_arr[0]) is ValueError or int(date_arr[1]) is ValueError:
+            date = input("Introdueix una data (Format numeric!!) : ")
+            date_arr = date.split("/")
+            print(date_arr)
+
     return date
 
 
 def insert(main_dict):
-    df = pd.DataFrame(data=main_dict)
-    df = df.rename(columns= {"" : "id"})
+    df = pd.DataFrame.from_dict(main_dict, orient='index', columns=['group', 'song_Name', 'publish_date', 'views'])
+    df.index.name = 'id'
     df.to_csv(ACT4, mode='a')
-    sort_csv = pd.read_csv(ACT4, index_col=0)
-    #sort_csv.sort_values("NaN",ascending=True)
-    print(sort_csv)
+
+def read_values():
+    selected_col = input("Quina columna vols llegir?").lower()
+    selected_value = input("Quin valor vols llegir?").lower()
+    df = pd.read_csv(ACT4)
+    query = df.query(f"{selected_col} == '{selected_value}'", inplace=False)
+    print(query)

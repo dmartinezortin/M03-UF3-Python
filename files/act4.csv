@@ -1,25 +1,10 @@
-,12
-data publicacio,12/12/1212
-grup/cantant,12
-nom de la canço,12
-visualitzacions,12
-,12
-data publicacio,12/12/1212
-grup/cantant,12
-nom de la canço,12
-visualitzacions,12
-,12
-data publicacio,12/12/1212
-grup/cantant,12
-nom de la canço,12
-visualitzacions,12
-,11
-data publicacio,12/12/1212
-grup/cantant,12
-nom de la canço,12
-visualitzacions,12
-,21
-data publicacio,22/22/2222
-grup/cantant,12
-nom de la canço,12
-visualitzacions,213
+id,group,song_Name,publish_date,views
+12,Prova,Prova,12/12/1212,456
+id,group,song_Name,publish_date,views
+2,2,2,22/22/2222,2
+id,group,song_Name,publish_date,views
+3,3,3,33/33/3333,3
+id,group,song_Name,publish_date,views
+1,asd,asd,22/22/2222,2
+id,group,song_Name,publish_date,views
+1,1,1,xx/xx/xxxx,1
