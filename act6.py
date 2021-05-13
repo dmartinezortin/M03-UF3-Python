@@ -8,7 +8,7 @@ def main():
     if input("Vols afegir nous registres? S/N").upper() == "S":
         ins.main()
     else:
-        print("N")
+        print("Actualitzant la base de dades... ")
     try:
         db.insert_data()
     except:

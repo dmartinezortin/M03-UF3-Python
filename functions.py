@@ -78,11 +78,13 @@ def request_date(format="xx/xx/xxxx"):
     return date
 
 
-def insert(main_dict):
-    actual_df = pd.read_csv(ACT4, names =['id','group_name', 'song_name', 'publish_date', 'views'])
-    new_df = pd.DataFrame.from_dict(main_dict, orient= 'index')
-    actual_df.append(new_df)
-    actual_df.to_csv(ACT4, mode='a')
+def insert(data):
+    actual_df = pd.read_csv(ACT4, index_col=0)
+    #new_df = pd.DataFrame.from_dict(data, orient= 'index')
+    df_length = len(actual_df)
+    actual_df.loc[df_length] = data
+    print(actual_df)
+    actual_df.to_csv(ACT4, mode='w', index=False)
 
 
 def read_values():
