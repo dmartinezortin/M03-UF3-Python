@@ -1,7 +1,9 @@
 import sys as sys
 import pandas as pd
+
 ACT4 = "files/act4.csv"
 BLOCK_LENGTH = 5
+
 
 def request_string(str_size):
     str = input("introdueix el string: ")
@@ -9,22 +11,24 @@ def request_string(str_size):
         input("introdueix el string: ")
     return str
 
+
 def add_to_file(filename, str, operation):
     f = open(filename, operation)
     try:
-        #Escriu el string al document
+        # Escriu el string al document
         f.writelines(str)
         f.close()
     except:
-        #ObtÃ© el error del procÃ©s i el printa
+        # Obté el error del procés i el printa
         err = sys.exc_info()[1]
         print(err)
     else:
-        #Cas que tot ha estat correcte
+        # Cas que tot ha estat correcte
         print("Processant...")
     finally:
-        #Finalment, hagi fallat o no, tanca el programa
+        # Finalment, hagi fallat o no, tanca el programa
         print("Sortint del programa.")
+
 
 def read_file(filename, operation):
     f = open(filename, operation)
@@ -33,7 +37,7 @@ def read_file(filename, operation):
         print(f.read())
         f.close()
     except:
-        # ObtÃ© el error del procÃ©s i el printa
+        # Obté el error del procés i el printa
         err = sys.exc_info()[1]
         print(err)
     else:
@@ -42,16 +46,20 @@ def read_file(filename, operation):
     finally:
         # Finalment, hagi fallat o no, tanca el programa
         print("Sortint del programa.")
-        
+
+
 def request_option():
-    option = int(input("Que vols fer? \n1.Crear un fitxer\n2.Mostrar el contingut d'un fitxer\n3.Modificar el contingut d'un fitxer\n4.Sortir\n"))
+    option = int(input(
+        "Que vols fer? \n1.Crear un fitxer\n2.Mostrar el contingut d'un fitxer\n3.Modificar el contingut d'un fitxer\n4.Sortir\n"))
     while option > 4 or option < 1:
-        option = int(input("Que vols fer? \n1.Crear un fitxer\n2.Mostrar el contingut d'un fitxer\n3.Modificar el contingut d'un fitxer\n4.Sortir\n"))
+        option = int(input(
+            "Que vols fer? \n1.Crear un fitxer\n2.Mostrar el contingut d'un fitxer\n3.Modificar el contingut d'un fitxer\n4.Sortir\n"))
     return option
+
 
 def request_int(str):
     num = -1
-    while num < 0 :
+    while num < 0:
         try:
             num = int(input(str))
         except:
@@ -59,28 +67,23 @@ def request_int(str):
     return num
 
 
-
-def request_date(format = "xx/xx/xxxx"):
-
+def request_date(format="xx/xx/xxxx"):
     check_pattern = list([x for x in range(len(format)) if format[x] == "/"])
     date = "/"
     date_arr = []
-    while len(date) != len(format) or date[check_pattern[0]] != "/" or date[check_pattern[1]] != "/" or int(date_arr[0]) > 31 or int(date_arr[1] > 12):
+    while len(date) != len(format) or date[check_pattern[0]] != "/" or date[check_pattern[1]] != "/":
         date = input("Introdueix una data: ")
         date_arr = date.split("/")
         print(date_arr)
-        while int(date_arr[0]) is ValueError or int(date_arr[1]) is ValueError:
-            date = input("Introdueix una data (Format numeric!!) : ")
-            date_arr = date.split("/")
-            print(date_arr)
-
     return date
 
 
 def insert(main_dict):
-    df = pd.DataFrame.from_dict(main_dict, orient='index', columns=['group', 'song_Name', 'publish_date', 'views'])
-    df.index.name = 'id'
-    df.to_csv(ACT4, mode='a')
+    actual_df = pd.read_csv(ACT4, names =['id','group_name', 'song_name', 'publish_date', 'views'])
+    new_df = pd.DataFrame.from_dict(main_dict, orient= 'index')
+    actual_df.append(new_df)
+    actual_df.to_csv(ACT4, mode='a')
+
 
 def read_values():
     selected_col = input("Quina columna vols llegir?").lower()
@@ -92,3 +95,7 @@ def read_values():
     except:
         print("ups... Prueba a decir una columna o valor adecuado")
         pass
+
+def df_to_list():
+    df = pd.read_csv(ACT4)
+    return df.values.tolist()
