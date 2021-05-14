@@ -16,17 +16,15 @@ def insert_data():
         result = crs.fetchall()
         count = 0
         to_add = list()
-        print(result)
         if len(result) == 0:
             to_add = tuple(data_list)
         else:
             for item in data_list:
+                item = tuple(item)
                 if item not in result:
                     to_add.append(item)
-
         for item in to_add:
             item = tuple(item)
-            print(item)
             crs.execute("INSERT INTO tb_video (id, group_name, song_name, publish_date, views)"
                         "VALUES (%s, %s, %s, %s, %s)",
                         (item))

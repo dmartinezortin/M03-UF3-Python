@@ -79,10 +79,9 @@ def request_date(format="xx/xx/xxxx"):
 
 
 def insert(data):
-    actual_df = pd.read_csv(ACT4, index_col=0)
+    actual_df = pd.read_csv(ACT4)
     #new_df = pd.DataFrame.from_dict(data, orient= 'index')
-    df_length = len(actual_df)
-    actual_df.loc[df_length] = data
+    actual_df.loc[len(actual_df)] = data
     print(actual_df)
     actual_df.to_csv(ACT4, mode='w', index=False)
 
