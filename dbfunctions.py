@@ -5,22 +5,33 @@ from credentials import creds
 
 def insert_data():
     try:
-        cnx = mysql.connector.connect(user=creds['user'], password=creds['passw'], host=creds['host'], database=creds['database'])
+        cnx = mysql.connector.connect(user=creds['user'],
+                                      password=creds['passw'],
+                                      host=creds['host'],
+                                      database=creds['database'])
         data_list = f.df_to_list()
-        table = creds['table']
         crs = cnx.cursor()
+        select = (f"SELECT * FROM %s" % (creds['table']))
+        crs.execute(select)
         result = crs.fetchall()
         count = 0
         to_add = list()
-        for query in result:
-            for reg in data_list:
-                reg = tuple(reg)
-                if reg[0] != query[0]:
-                    to_add.append(list(reg))
-                    count += 1
-        to_add = tuple(to_add)
+        print(result)
+        if len(result) == 0:
+            to_add = tuple(data_list)
+        else:
+            for item in data_list:
+                if item not in result:
+                    to_add.append(item)
+
         for item in to_add:
+            item = tuple(item)
             print(item)
+            crs.execute("INSERT INTO tb_video (id, group_name, song_name, publish_date, views)"
+                        "VALUES (%s, %s, %s, %s, %s)",
+                        (item))
+            count += 1
+            cnx.commit()
         print(f"Base de dades actualitzada, total de registres afegits: {count}")
         crs.close()
     except mysql.connector.Error as err:
