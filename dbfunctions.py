@@ -11,23 +11,29 @@ def insert_data():
                                       database=creds['database'])
         data_list = f.df_to_list()
         crs = cnx.cursor()
-        select = (f"SELECT * FROM %s" % (creds['table']))
+        select = ("SELECT * FROM tb_video")
         crs.execute(select)
         result = crs.fetchall()
+        print(result)
         count = 0
         to_add = list()
-        if len(result) == 0:
+        if len(result) < 1:
             to_add = tuple(data_list)
         else:
             for item in data_list:
+                flag = False
                 item = tuple(item)
-                if item not in result:
+                for query in result:
+                    if item[0] == query[0]:
+                        flag = True
+                if flag == False:
                     to_add.append(item)
+
         for item in to_add:
             item = tuple(item)
             crs.execute("INSERT INTO tb_video (id, group_name, song_name, publish_date, views)"
                         "VALUES (%s, %s, %s, %s, %s)",
-                        (item))
+                        item)
             count += 1
             cnx.commit()
         print(f"Base de dades actualitzada, total de registres afegits: {count}")
