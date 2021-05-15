@@ -1,6 +1,6 @@
 import mysql.connector
 from mysql.connector import errorcode
-import  functions as f
+import functions as f
 from credentials import creds
 
 def insert_data():
@@ -16,26 +16,18 @@ def insert_data():
         result = crs.fetchall()
         print(result)
         count = 0
-        to_add = list()
-        if len(result) < 1:
-            to_add = tuple(data_list)
-        else:
-            for item in data_list:
-                flag = False
-                item = tuple(item)
-                for query in result:
-                    if item[0] == query[0]:
-                        flag = True
-                if flag == False:
-                    to_add.append(item)
+        to_add = list(data_list)
 
         for item in to_add:
-            item = tuple(item)
-            crs.execute("INSERT INTO tb_video (id, group_name, song_name, publish_date, views)"
-                        "VALUES (%s, %s, %s, %s, %s)",
-                        item)
-            count += 1
-            cnx.commit()
+            try:
+                item = tuple(item)
+                crs.execute("INSERT INTO tb_video (id, group_name, song_name, publish_date, views)"
+                            "VALUES (%s, %s, %s, %s, %s)",
+                            (item))
+                count += 1
+                cnx.commit()
+            except mysql.connector.IntegrityError:
+                print(f"Valor amb ID ja existent, passant al seguent id... (ID duplicat: {item[0]})")
         print(f"Base de dades actualitzada, total de registres afegits: {count}")
         crs.close()
     except mysql.connector.Error as err:
