@@ -90,6 +90,7 @@ def read_values():
     selected_col = input("Quina columna vols llegir?").lower()
     selected_value = input("Quin valor vols llegir?").lower()
     df = pd.read_csv(ACT4)
+    print(df)
     try:
         query = df.query(f"{selected_col} == '{selected_value}'", inplace=False)
         print(query)
