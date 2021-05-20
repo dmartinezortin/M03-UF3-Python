@@ -1,5 +1,7 @@
 import sys as sys
 import pandas as pd
+import csv
+import json
 
 ACT4 = "files/act4.csv"
 BLOCK_LENGTH = 5
@@ -87,12 +89,11 @@ def insert(data):
 
 
 def read_values():
-    selected_col = input("Quina columna vols llegir?").lower()
+    selected_col = input("Quina columna vols llegir?(id,group_name,song_name,publish_date,views)").lower()
     selected_value = input("Quin valor vols llegir?").lower()
     df = pd.read_csv(ACT4)
-    print(df)
     try:
-        query = df.query(f"{selected_col} == '{selected_value}'", inplace=False)
+        query = df.query(f'{selected_col} == {selected_value}', inplace=False)
         print(query)
     except:
         print("ups... Prueba a decir una columna o valor adecuado")
@@ -100,4 +101,38 @@ def read_values():
 
 def df_to_list():
     df = pd.read_csv(ACT4)
-    return df.values.tolist()
+
+    def df_to_list():
+        df = pd.read_csv(ACT4)
+        return df.values.tolist()
+
+def user_menu():
+    n = 0
+    while n < 1 or n > 4:
+        n = int(input("Que vols fer?\n1. Introduir dades al CSV.\n2. Llegir les dades.\n3. Convertir a TXT.\n4. Convertir a JSON.\n"))
+    return n
+
+def csv_to_txt():
+    try:
+        with open(ACT4, 'r') as file, open('files/repas.txt', 'a') as dest:
+            for line in file:
+                line = line.replace(",", "\t")
+                dest.write(line)
+            print("CSV convertit a text exitosament!")
+    except:
+        err = sys.exc_info()[1]
+        print(err)
+
+def csv_to_json():
+    with open(ACT4, 'r') as csvfile, open('files/output.json', 'w') as jsonfile:
+        try:
+            fields = ("id","group_name","song_name","publish_date","views")
+            csv_read = csv.DictReader(csvfile, fields)
+            for row in csv_read:
+                json.dump(row, jsonfile)
+                jsonfile.write("\n")
+            print("JSON escrit exitosament!")
+
+        except:
+            err = sys.exc_info()[1]
+            print(err)

@@ -9,13 +9,10 @@ def insert_data():
                                       password=creds['passw'],
                                       host=creds['host'],
                                       database=creds['database'])
-        data_list = f.df_to_list()
         crs = cnx.cursor()
-        to_add = list(data_list)
-
+        to_add = tuple(f.df_to_list())
         for item in to_add:
             try:
-                item = tuple(item)
                 crs.execute("INSERT INTO tb_video (id, group_name, song_name, publish_date, views)"
                             "VALUES (%s, %s, %s, %s, %s)",
                             (item))
